@@ -2,7 +2,7 @@ from bs4 import BeautifulSoup
 import requests
 
 
-data = requests.get('https://www.ebay.de/sch/i.html?_nkw=lenovo+m93&_udhi=100.00')
+data = requests.get('https://www.ebay.de/sch/i.html?_nkw=lenovo+m92&_udhi=100.00&rt=nc&LH_PrefLoc=1')
 soup = BeautifulSoup(data.text,'html.parser')
 
 
@@ -28,7 +28,7 @@ for item in listitems:
     #print(title.text, price.text,purchase.text,shipping.text,timeleft.text,time.text,bidCount.text)
     #print(title, price,purchase,shipping,timeleft,time,bidCount)
     float_price = float(price.text[4:].replace(',','.'))
-    if float_price < 75:
+    if float_price < 100:
         if bidCount is not None:
             print(title.text,price.text,bidCount.text,shipping.text,timeleft.text)
             
