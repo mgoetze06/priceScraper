@@ -43,7 +43,8 @@ for item in listitems:
 #for tr in tbody.find_all('tr'):
 #	place = tr.find_all('td')[0].text.strip()
 
-
+#https://automatetheboringstuff.com/2e/chapter14/
+#google spreadsheet integration
 #print()
 
 
