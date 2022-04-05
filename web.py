@@ -31,6 +31,7 @@ for item in listitems:
     if float_price < 100:
         if bidCount is not None:
             print(title.text,price.text,bidCount.text,shipping.text,timeleft.text)
+            #this is a new comment on line 34
             
         else:
             print(title.text, price.text, purchase.text)
