@@ -7,7 +7,6 @@ def isAlreadyInJson(filename,newName):
     # Opening JSON file
     itemFound = False
     f = open(filename)
-
     # returns JSON object as
     # a dictionary
     data = json.load(f)
@@ -34,8 +33,22 @@ def write_json(new_data, filename, objects):
         file.seek(0)
         # convert back to json.
         json.dump(file_data, file, indent = 4)
+          # default json file layout:
+          # {"objects":[]}
+          # new objects from ebay get added as an element to "object" root
+          #
 
-data = requests.get('https://www.ebay.de/sch/i.html?_nkw=lenovo+m92&_udhi=100.00&rt=nc&LH_PrefLoc=1')
+string1 = "https://www.ebay.de/sch/i.html?_nkw="
+search = ["3d", "drucker"] #search terms
+searchString = "+".join(search)
+string2 = "&_udhi="
+price = "40.00"
+string3 = "&rt=nc&LH_PrefLoc=1'"
+
+url = string1 + searchString + string2 + price + string3
+data = requests.get(url)
+#lenovos
+#data = requests.get('https://www.ebay.de/sch/i.html?_nkw=lenovo+m92&_udhi=100.00&rt=nc&LH_PrefLoc=1')
 soup = BeautifulSoup(data.text,'html.parser')
 
 
