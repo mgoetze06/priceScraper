@@ -1,6 +1,39 @@
 from bs4 import BeautifulSoup
 import requests
+import json
 
+
+def isAlreadyInJson(filename,newName):
+    # Opening JSON file
+    itemFound = False
+    f = open(filename)
+
+    # returns JSON object as
+    # a dictionary
+    data = json.load(f)
+    for obj in data['objects']:
+        #print(data)
+        #print("isalready1")
+        #print(obj)
+        if itemFound==False:
+            if obj['title']==newName:
+                #print("is already there")
+                itemFound = True
+            else:
+                itemFound = False
+    return itemFound
+
+# function to add to JSON
+def write_json(new_data, filename, objects):
+    with open(filename,'r+') as file:
+          # First we load existing data into a dict.
+        file_data = json.load(file)
+        # Join new_data with file_data inside emp_details
+        file_data[objects].append(new_data)
+        # Sets file's current position at offset.
+        file.seek(0)
+        # convert back to json.
+        json.dump(file_data, file, indent = 4)
 
 data = requests.get('https://www.ebay.de/sch/i.html?_nkw=lenovo+m92&_udhi=100.00&rt=nc&LH_PrefLoc=1')
 soup = BeautifulSoup(data.text,'html.parser')
@@ -32,10 +65,37 @@ for item in listitems:
         if bidCount is not None:
             print(title.text,price.text,bidCount.text,shipping.text,timeleft.text)
             #this is a new comment on line 34
-            
+            jsObject = {
+                "title": title.text,
+                "price": price.text,
+                "purchase": purchase,
+                "shipping": shipping.text,
+                "timeleft": timeleft.text,
+                "time": time,
+                "bidCount": bidCount.text,
+                "link": link['href']
+            }
+            if(isAlreadyInJson('data.json',title.text)):
+                print("object is already in json")
+            else:
+                write_json(jsObject, 'data.json', 'objects')
+                print("object added to json")
+            #default json file layout:
+            #{"objects":[]}
+            #new objects from ebay get added as an element to "object" root
+            #
+            #
+            #
         else:
-            print(title.text, price.text, purchase.text)
-        print(link['href'])
+            print("object not fitting parameters")
+            #print(title.text, price.text, purchase.text)
+        #print(link['href'])
+
+    #with open('data.json', 'w') as f:
+    #    json.dump(jsObject, f)
+    #y = json.dumps(jsObject)
+    #print(y)
+
 
 
 #s-item__info clearfix
